@@ -3,4 +3,5 @@
 
 (library
  (name asara_caspian)
- (public_name asara-caspian))
+ (public_name asara-caspian)
+ (libraries cohttp-lwt-unix lwt uri yojson))

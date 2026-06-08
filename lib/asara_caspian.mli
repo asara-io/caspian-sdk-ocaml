@@ -7,3 +7,8 @@
 
 val version : string
 (** SDK package version. *)
+
+module Error = Error
+module Health = Health
+module Transport = Transport
+module Client = Client

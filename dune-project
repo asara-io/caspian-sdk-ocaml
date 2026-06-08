@@ -21,4 +21,10 @@
   "asara-caspian is the official OCaml SDK for authenticated access to the public Caspian API, including customer-facing health, market data, enriched market data, and policy metadata endpoints.")
  (depends
   (ocaml
-   (>= 5.1))))
+   (>= 5.1))
+  cohttp-lwt-unix
+  lwt
+  uri
+  yojson
+  (alcotest
+   :with-test)))

@@ -9,8 +9,8 @@ This repository contains the OCaml package that will be published as
 
 ## Status
 
-This SDK is in early package setup. The public package shape is being prepared
-before endpoint clients are implemented.
+This SDK is in early development. The Lwt client currently supports the
+authenticated public health endpoint.
 
 ## Installation
 
@@ -41,8 +41,8 @@ control.
 
 ## Example
 
-The completed SDK is expected to expose a typed client for the external Caspian
-API:
+The SDK exposes a typed Lwt client for the external Caspian API. The
+synchronous-looking flow below runs through Lwt:
 
 ```ocaml
 open Lwt.Syntax
@@ -55,20 +55,21 @@ let () =
          ~api_key:(Sys.getenv "CASPIAN_API_KEY")
          ()
      in
-     let* health = Asara_caspian.Client.health client in
-     let* samples =
-       Asara_caspian.Market_data.enriched_samples
-         client
-         ~ticker:"AAPL"
-         ~limit:100
-         ()
-     in
-     Asara_caspian.Health.pp Format.std_formatter health;
-     Format.printf "@.%a@." Asara_caspian.Market_data.pp_enriched_samples samples;
-     Lwt.return_unit)
+     let* result = Asara_caspian.Client.health client in
+     match result with
+     | Ok health ->
+         Format.printf "service=%s status=%s version=%s@."
+           health.service
+           health.status
+           health.version;
+         Lwt.return_unit
+     | Error error ->
+         Format.eprintf "%s@." (Asara_caspian.Error.to_string error);
+         Lwt.return_unit)
 ```
 
-The final API may evolve while the package remains pre-1.0.
+Market data and policy resources will follow the same client layout as they are
+added. The final API may evolve while the package remains pre-1.0.
 
 ## Public API Coverage
 
@@ -90,9 +91,15 @@ The OCaml library name is `asara-caspian`, with the top-level module
 Expected module areas:
 
 - `Asara_caspian.Client` for client construction and common request behavior.
+- `Asara_caspian.Health` for service health response types.
+- `Asara_caspian.Transport` for the narrow HTTP transport boundary.
 - `Asara_caspian.Market_data` for market sample reads.
 - `Asara_caspian.Policy` for customer-visible policy metadata.
 - `Asara_caspian.Error` for typed SDK and service errors.
+
+The default transport uses Lwt and CoHTTP. The transport boundary is kept small
+so future Eio or Async clients can reuse the same request construction,
+decoding, and error types without changing customer-facing models.
 
 ## Development
 
