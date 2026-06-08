@@ -103,12 +103,30 @@ decoding, and error types without changing customer-facing models.
 
 ## Development
 
-Common local checks:
+## Build and Test
+
+Install dependencies for local development:
+
+```sh
+opam install . --deps-only --with-test
+```
+
+Build the installable library artifacts:
+
+```sh
+dune build @install
+```
+
+Run the test suite:
+
+```sh
+dune build @runtest
+```
+
+Run formatting checks when `ocamlformat` is available:
 
 ```sh
 dune fmt
-dune build @install
-dune runtest
 ```
 
 The package metadata is defined in `dune-project`, with opam metadata generated

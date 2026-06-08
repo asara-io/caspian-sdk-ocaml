@@ -16,7 +16,7 @@
 
 (package
  (name asara-caspian)
- (synopsis "Official OCaml SDK for the public Caspian API.")
+ (synopsis "Official OCaml SDK for the public Caspian API")
  (description
   "asara-caspian is the official OCaml SDK for authenticated access to the public Caspian API, including customer-facing health, market data, enriched market data, and policy metadata endpoints.")
  (depends
