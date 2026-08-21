@@ -7,6 +7,9 @@ metadata through authenticated HTTPS endpoints.
 This repository contains the OCaml package that will be published as
 `asara-caspian`.
 
+The SDK supports OCaml 5.2 and newer. OCaml 4.x, 5.0, and 5.1 are not
+supported by the current package line.
+
 ## Status
 
 This SDK is in early development. The Lwt client currently supports the

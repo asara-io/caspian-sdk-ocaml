@@ -10,7 +10,7 @@ homepage: "https://github.com/asara-io/caspian-sdk-ocaml"
 bug-reports: "https://github.com/asara-io/caspian-sdk-ocaml/issues"
 depends: [
   "dune" {>= "3.11"}
-  "ocaml" {>= "5.1"}
+  "ocaml" {>= "5.2"}
   "cohttp-lwt-unix"
   "lwt"
   "uri"
