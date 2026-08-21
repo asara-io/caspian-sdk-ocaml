@@ -7,5 +7,6 @@ let version = "0.0.1"
 
 module Error = Error
 module Health = Health
+module Policy = Policy
 module Transport = Transport
 module Client = Client

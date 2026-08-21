@@ -13,7 +13,7 @@ supported by the current package line.
 ## Status
 
 This SDK is in early development. The Lwt client currently supports the
-authenticated public health endpoint.
+authenticated public health and active-policy endpoints.
 
 ## Installation
 
@@ -71,8 +71,23 @@ let () =
          Lwt.return_unit)
 ```
 
-Market data and policy resources will follow the same client layout as they are
-added. The final API may evolve while the package remains pre-1.0.
+Market data resources will follow the same client layout as they are added.
+Read the effective policy for the authenticated customer with:
+
+```ocaml
+let client =
+  Asara_caspian.Client.create
+    ~base_url:"https://api.caspian.example.com"
+    ~api_key:(Sys.getenv "CASPIAN_API_KEY")
+    ()
+
+let result =
+  Lwt_main.run (Asara_caspian.Client.active_policy client)
+```
+
+The result contains typed approved data sources, blackout windows, restricted
+entities, restricted topics, and open-ended policy metadata. The final API may
+evolve while the package remains pre-1.0.
 
 ## Public API Coverage
 
@@ -97,14 +112,13 @@ Expected module areas:
 - `Asara_caspian.Health` for service health response types.
 - `Asara_caspian.Transport` for the narrow HTTP transport boundary.
 - `Asara_caspian.Market_data` for market sample reads.
-- `Asara_caspian.Policy` for customer-visible policy metadata.
+- `Asara_caspian.Policy` for customer-visible policy response types.
+- `Asara_caspian.Client.active_policy` for reading the effective policy.
 - `Asara_caspian.Error` for typed SDK and service errors.
 
 The default transport uses Lwt and CoHTTP. The transport boundary is kept small
 so future Eio or Async clients can reuse the same request construction,
 decoding, and error types without changing customer-facing models.
-
-## Development
 
 ## Build and Test
 

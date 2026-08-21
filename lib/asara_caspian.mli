@@ -10,5 +10,6 @@ val version : string
 
 module Error = Error
 module Health = Health
+module Policy = Policy
 module Transport = Transport
 module Client = Client

@@ -58,11 +58,11 @@ let request_id headers =
   | Some _ as value -> value
   | None -> assoc_ci "X-Caspian-Request-ID"
 
-let health client =
+let get client path =
   let request =
     {
       Transport.meth = `GET;
-      url = with_path client.base_url "/api/v1/health";
+      url = with_path client.base_url path;
       headers = auth_headers client;
     }
   in
@@ -73,4 +73,16 @@ let health client =
       Lwt.return_error
         (Error.Http_error
            { status; request_id = request_id headers; body })
-  | Ok { body; _ } -> Lwt.return (Health.of_json_string body)
+  | Ok response -> Lwt.return_ok response
+
+let health client =
+  let* response = get client "/api/v1/health" in
+  match response with
+  | Error _ as error -> Lwt.return error
+  | Ok { Transport.body; _ } -> Lwt.return (Health.of_json_string body)
+
+let active_policy client =
+  let* response = get client "/api/v1/policy/active" in
+  match response with
+  | Error _ as error -> Lwt.return error
+  | Ok { Transport.body; _ } -> Lwt.return (Policy.of_json_string body)

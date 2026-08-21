@@ -26,3 +26,6 @@ val create :
 
 val health : t -> (Health.t, Error.t) result Lwt.t
 (** Return the service health status for the authenticated API key. *)
+
+val active_policy : t -> (Policy.t, Error.t) result Lwt.t
+(** Return the effective policy profile for the authenticated customer. *)

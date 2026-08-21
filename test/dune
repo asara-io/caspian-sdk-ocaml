@@ -4,3 +4,7 @@
 (test
  (name test_health)
  (libraries asara-caspian alcotest lwt.unix))
+
+(test
+ (name test_policy)
+ (libraries asara-caspian alcotest lwt.unix yojson))
